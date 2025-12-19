@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>小卖部购物系统</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>便民小卖部</h1>
+        <nav>
+            <a href="{{ url_for('index') }}">全部商品</a>
+            <a href="{{ url_for('index', category='零食') }}">零食</a>
+            <a href="{{ url_for('index', category='酒水') }}">酒水</a>
+            <a href="{{ url_for('index', category='生活用品') }}">生活用品</a>
+            <a href="{{ url_for('cart') }}" class="cart-icon">购物车</a>
+        </nav>
+    </header>
+
+    <main>
+        <h2>{{ current_category if current_category else '全部商品' }}</h2>
+        <div class="product-list">
+            {% for product in products %}
+            <div class="product-card">
+                <img src="{{ url_for('static', filename='images/' + product.img) }}" alt="{{ product.name }}"
+                     onerror="this.src='https://via.placeholder.com/150'">
+                <h3>{{ product.name }}</h3>
+                <p class="category">{{ product.category }}</p>
+                <p class="price">¥{{ product.price }}</p>
+                <p class="stock">库存: {{ product.stock }}</p>
+                <form action="{{ url_for('add_to_cart', product_id=product.id) }}" method="post">
+                    <input type="number" name="quantity" value="1" min="1" max="{{ product.stock }}">
+                    <button type="submit">加入购物车</button>
+                </form>
+            </div>
+            {% endfor %}
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2025 便民小卖部 - 所有商品均为模拟数据</p>
+    </footer>
+</body>
+</html>

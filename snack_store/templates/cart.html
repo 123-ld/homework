@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>购物车 - 便民小卖部</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>我的购物车</h1>
+        <nav>
+            <a href="{{ url_for('index') }}">返回购物</a>
+            <a href="{{ url_for('checkout') }}" class="checkout-btn">去结算</a>
+        </nav>
+    </header>
+    <main>
+        {% if cart_items %}
+        <table class="cart-table">
+            <tr><th>商品</th><th>单价</th><th>数量</th><th>小计</th><th>操作</th></tr>
+            {% for item in cart_items %}
+            <tr>
+                <td><img src="{{ item.product.img }}" alt="{{ item.product.name }}">{{ item.product.name }}</td>
+                <td>¥{{ item.product.price }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>¥{{ item.item_total }}</td>
+                <td><a href="{{ url_for('remove', product_id=item.product.id) }}" class="del-btn">移除</a></td>
+            </tr>
+            {% endfor %}
+            <tr class="total"><td colspan="3">总计</td><td colspan="2">¥{{ total_price }}</td></tr>
+        </table>
+        {% else %}
+        <div class="empty">
+            <p>购物车为空，快去选购吧！</p>
+            <a href="{{ url_for('index') }}" class="btn">返回购物</a>
+        </div>
+        {% endif %}
+    </main>
+    <footer>© 2025 便民小卖部</footer>
+</body>
+</html>

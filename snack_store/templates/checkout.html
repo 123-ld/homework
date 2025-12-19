@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>结算 - 便民小卖部</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>结算中心</h1>
+        <nav>
+            <a href="{{ url_for('cart') }}">返回购物车</a>
+            <a href="{{ url_for('index') }}">继续购物</a>
+        </nav>
+    </header>
+    <main>
+        {% if success %}
+        <div class="success">
+            <h2>下单成功！</h2>
+            <p>订单号：{{ order_id }}</p>
+            <p>感谢您的购买！</p>
+            <a href="{{ url_for('index') }}" class="btn">返回首页</a>
+        </div>
+        {% else %}
+        <div class="checkout-form">
+            <h2>确认订单</h2>
+            <p class="total">订单总价：¥{{ total_price }}</p>
+            <form method="post">
+                <div class="form-item">
+                    <label>收货人：</label>
+                    <input type="text" name="name" required>
+                </div>
+                <div class="form-item">
+                    <label>电话：</label>
+                    <input type="tel" name="phone" required>
+                </div>
+                <div class="form-item">
+                    <label>地址：</label>
+                    <textarea name="address" required></textarea>
+                </div>
+                <button type="submit" class="submit-btn">提交订单</button>
+            </form>
+        </div>
+        {% endif %}
+    </main>
+    <footer>© 2025 便民小卖部</footer>
+</body>
+</html>
